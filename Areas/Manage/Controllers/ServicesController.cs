@@ -50,9 +50,12 @@ namespace Maxim.Areas.Manage.Controllers
 
 
 
-        public IActionResult Update()
+        public async Task<IActionResult> Update(int id)
         {
-            return View();
+            Services service =await  _context.Services.FindAsync(id);
+            return View(service);
+           
+
         }
 
         [HttpPost]
@@ -70,14 +73,12 @@ namespace Maxim.Areas.Manage.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         public IActionResult Delete(int id)
         {
             var service = _context.Services.FirstOrDefault(p => p.Id == id);
             _context.Services.Remove(service);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction(nameof(Index));
         }
-
     }
 }
